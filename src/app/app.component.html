@@ -1,0 +1,38 @@
+<!-- Assignment description:
+1. Create three new components: GameControl, Odd and Even
+2. The GameControl Component should have buttons to start and stop the game
+3. When starting the game, an event (holding a incrementing number) should get emitted each second (ref = setInterval())
+4. The event should be listenable from outside the component
+5. When stopping the game, no more events should get emitted (clearInterval(ref))
+6. A new Odd component should get created for every odd number emitted, the same should happen for the Even Component (on even numbers)
+7. Simply output Odd - NUMBER or Even - NUMBER in the two components
+8. Style the element (e.g. paragraph) holding your output text differently in both components -->
+
+<!-- Helpful links:
+1. https://www.centric.eu/NL/Default/Craft/Blogs/2018/01/25/Angular-components-How-to-talk-to-your-children-and-listen-to-what-they-have-to-say 
+2. https://stackoverflow.com/questions/35405618/ngfor-with-index-as-value-in-attribute -->
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-12">
+      <!-- We're listening to an event in the 'app-game-component'. We expect to get some data '$event' -
+      in this case it's the incremented number. The emited numbers are going to be added to an array 
+      'numbersArray' in 'the app.component.ts' -->
+      <app-game-control (getIncrementingNumberValue)="onIncrementNumber($event)"></app-game-control>
+    </div>
+  </div>
+
+  <div class="row app-odd-even-paragraph">
+    <!-- We're updating the 'numbersArray' continuously with new, incremented numbers
+    so now we can loop through the array anf display all the odd and even numbers -->
+    <div class="col-12" *ngFor="let element of numbersArray">
+      <!-- Create an @Input: number, to hold the value of the number and then to display it in the component -->
+      <!-- Add 'app-even' component whenever the number of the 'numbersArray' is even -->
+      <app-even *ngIf="element !== 0 && element%2 === 0" [number]="element"></app-even>
+      <!-- Add 'app-odd' component whenever the number of the 'numbersArray' is odd -->
+      <app-odd *ngIf="element%2 !== 0" [number]="element"></app-odd>
+    </div>
+  </div>
+
+</div>
